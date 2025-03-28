@@ -88,7 +88,7 @@ public class Player extends Sprite{
 
     @Override
     public String getCoords() {
-        return "Player: " + super.getCoords();
+        return "Player:" + super.getCoords();
     }
 }
 

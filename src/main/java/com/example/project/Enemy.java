@@ -12,12 +12,12 @@ public class Enemy extends Sprite { //child  of Sprite
 
 
     public String getCoords(){ //returns "Enemy:"+coordinates
-        return "Enemy: ("+ getX() + "," + getY() + ")";
+        return "Enemy:" + super.getCoords();
     }
 
 
     public String getRowCol(int size){ //return "Enemy:"+row col
-    return "";
+    return "Enemy:" + super.getRowCol(size);
     
     }
 }
