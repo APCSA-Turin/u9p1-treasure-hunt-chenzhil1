@@ -36,6 +36,7 @@ public class TestGrid {
         // Row 8: [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
         // Row 9: [P][ ][ ][ ][ ][ ][ ][ ][ ][ ]
         //         0  1  2  3  4  5  6  7  8  9
+        
 
         // Place objects on the grid
         grid.placeSprite(player);
@@ -78,8 +79,6 @@ public class TestGrid {
 
     @Test
     public void testPlayerMoveUpdatesGrid() {
-
-      
         player.move("d"); //move right
         grid.placeSprite(player, "d");
 

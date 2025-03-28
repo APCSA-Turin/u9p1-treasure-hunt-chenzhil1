@@ -1,6 +1,8 @@
 package com.example.project;
 import java.util.Scanner;
 
+import java.util.Scanner;
+
 public class Game{
     private Grid grid;
     private Player player;
@@ -53,6 +55,37 @@ public class Game{
     }
 
     public static void main(String[] args) {
-        
+        Grid grid = new Grid(10);
+        grid.display();
+
+        Player player = new Player(0, 0);
+        Enemy enemy = new Enemy(5, 5);
+        Enemy enemy2 = new Enemy(7, 8);
+        for(int i=0;i<5;i++){
+            player.move("w"); //[9-5][0]
+            grid.placeSprite(player, "w");
+        }
+
+        for(int i=0;i<4;i++){
+            player.move("d");//[5][4]
+            grid.placeSprite(player, "d");
+        }
+
+         // Interact with the enemy
+        player.interact(10, "d", 1, enemy);
+        player.move("d");//[4][5]
+        grid.placeSprite(player, "d");
+
+        grid.display();
+
+        //go to  [2][7] enemy from [4][5]
+        player.move("w");//[3][5]
+        player.move("w");//[2][5]
+        player.move("d");//[2][6]
+
+        player.interact(10,"d",1,enemy2);
+        player.move("d");//[2][7]
+        grid.placeSprite(player,"d");
+        grid.display();
     }
 }
