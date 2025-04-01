@@ -4,7 +4,7 @@ package com.example.project;
 public class Enemy extends Sprite { //child  of Sprite
     
     public Enemy(int x, int y) {
-        super(x, y);
+        super(x, y); //Initilize Enemy XY Value
     }
 
 
@@ -12,7 +12,7 @@ public class Enemy extends Sprite { //child  of Sprite
 
 
     public String getCoords(){ //returns "Enemy:"+coordinates
-        return "Enemy:" + super.getCoords();
+        return "Enemy:" + super.getCoords(); 
     }
 
 

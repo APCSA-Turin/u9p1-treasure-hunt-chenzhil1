@@ -21,7 +21,7 @@ public class Player extends Sprite{
   
     //move method should override parent class, sprite
     public void move(String direction) { //move the (x,y) coordinates of the player
-        if(direction.equals("w")) {
+        if(direction.equals("w")) { //Set temporary movements
             setY(getY() + 1);
         }
         else if(direction.equals("a")) {
@@ -39,18 +39,18 @@ public class Player extends Sprite{
 
     public void interact(int size, String direction, int numTreasures, Object obj) { // interact with an object in the position you are moving to 
     //numTreasures is the total treasures at the beginning of the game
-        if(obj instanceof Enemy) {
+        if(obj instanceof Enemy) { //Takes off health when encounter Enemy
             numLives --;
             if(numLives <= 0) {
                 win = false;
             }
         }
-        else if(obj instanceof Trophy) {
+        else if(obj instanceof Trophy) { //Check win at trophy
             if(numTreasures == treasureCount) {
                 win = true;
             }
         }    
-        else if(obj instanceof Treasure) {
+        else if(obj instanceof Treasure) { //Add treasureCount when at Treasure
             treasureCount ++;
         }
    
@@ -59,24 +59,24 @@ public class Player extends Sprite{
 
     public boolean isValid(int size, String direction){ //check grid boundaries
         if(!direction.equals("w") && !direction.equals("a") && !direction.equals("s") && !direction.equals("d")) {
-            return false;
+            return false; //Check if input is valid
         }
-        if(direction.equals("w")) {
+        if(direction.equals("w")) { //Check if player can move up
             if((getY() + 1) >= size) {
                 return false;
             }
         }
-        else if(direction.equals("a")) {
+        else if(direction.equals("a")) { //Check if player can move left
             if(getX() - 1 < 0) {
                 return false;
             } 
         }
-        else if(direction.equals("s")) {
+        else if(direction.equals("s")) { //Check if player can move down
             if((getY() - 1) < 0) {
                 return false;
             }
         }
-        else if(direction.equals("d")) {
+        else if(direction.equals("d")) { //Check if player can move right
             if(getX() + 1 >= size) {
                 return false;
             }

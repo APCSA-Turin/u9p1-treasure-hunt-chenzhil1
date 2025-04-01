@@ -28,10 +28,10 @@ public class Grid{
     }
 
     public void placeSprite(Sprite s, String direction) { //place sprite in a new spot based on direction
-        placeSprite(s);
-        int x = s.getX();
+        placeSprite(s); //Place player in a new spot
+        int x = s.getX(); //Get current player coordinates
         int y = s.getY();
-        if(direction.equals("w")) {
+        if(direction.equals("w")) { //Check previous location
             y --;
             
         }
@@ -44,8 +44,8 @@ public class Grid{
         else if(direction.equals("d")) {
            x --;
         }
-        grid[size - 1 - y][x] = new Dot(x, y);
-        if(x == size - 1  && y == size - 1) {
+        grid[size - 1 - y][x] = new Dot(x, y); //Set previous location to Dot
+        if(x == size - 1  && y == size - 1) { //Set previous trophy to trophy
             grid[size - 1 - y][x] = new Trophy(x, y);
         }
     }
@@ -77,19 +77,19 @@ public class Grid{
     
     public void gameover(Player p, Trophy t, Treasure[] treasures){ //use this method to display a loss
         String[][] fail = new String[size][size];
-        for(int i = 0; i < fail.length; i ++) {
+        for(int i = 0; i < fail.length; i ++) { //Fill all with skull
             for(int j = 0; j < fail[i].length; j ++) {
                 fail[i][j] = "💀";
             }
         
         }
         for(Treasure tt : treasures) {
-            fail[size - 1 - tt.getY()][tt.getX()] = "🎁";
+            fail[size - 1 - tt.getY()][tt.getX()] = "🎁"; //Fill treasures with treasures
         }
-        fail[size - 1 - p.getY()][p.getX()] = "🦄";
-        fail[size - 1 - t.getY()][t.getX()] = "🏆";
+        fail[size - 1 - p.getY()][p.getX()] = "🦄"; //Fill player with player
+        fail[size - 1 - t.getY()][t.getX()] = "🏆"; //Fill trophy with trophy
         
-        for(String[] strings : fail) {
+        for(String[] strings : fail) { //Print grid
             for(String str : strings) {
                 System.out.print(str);
             }
@@ -101,18 +101,18 @@ public class Grid{
 
     public void win(Player p){ //use this method to display a win 
         String[][] win = new String[size][size];
-        for(int i = 0; i < win.length; i ++) {
+        for(int i = 0; i < win.length; i ++) { //Fill all with trophy
             for(int j = 0; j < win[i].length; j ++) {
                 win[i][j] = "🏆";
             }
         
         }
-        win[size - 1 - p.getY()][p.getX()] = "🦄";
+        win[size - 1 - p.getY()][p.getX()] = "🦄"; //Fill player with player
         for(String[] strings : win) {
             for(String str : strings) {
                 System.out.print(str);
             }
-            System.out.println();
+            System.out.println(); //print grid
         }
     }
 

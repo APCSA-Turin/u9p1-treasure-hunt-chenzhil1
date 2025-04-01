@@ -4,7 +4,7 @@ package com.example.project;
 //Dot only needs a constructor
 public class Dot extends Sprite{
 
-    public Dot(int x, int y) {
+    public Dot(int x, int y) { //Initilize Dot XY Value
         super(x, y);
     }
 }
