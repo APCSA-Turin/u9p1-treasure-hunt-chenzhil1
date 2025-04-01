@@ -139,16 +139,16 @@ public class Game{
         System.out.println("Treasures remaining: " + (treasures.length - player.getTreasureCount()));
     }
 
-    public void mainMenu() {
+    public void mainMenu() { //Welcome screen
         Scanner scan = new Scanner(System.in);
-        while(true) {
+        while(true) {//Stop asking when a choice is made
             clearScreen();
             System.out.println("*****WELCOME TO TREASURE HUNT*****");
             System.out.println("1. Start Game!");
             System.out.println("2. Exit");
-            String response = scan.nextLine();
+            String response = scan.nextLine(); //Get user choice
             if(response.equals("1")) {
-                difficulty();
+                difficulty(); 
                 break;
             }
             if(response.equals("2")) {
@@ -158,9 +158,9 @@ public class Game{
         scan.close();
     }
 
-    public void difficulty() {
+    public void difficulty() { //Choose difficulties
         Scanner scan = new Scanner(System.in);
-        while(true) {
+        while(true) { //Stop asking when user responds
             clearScreen();
             System.out.println("Choose your level!");
             System.out.println("1. Easy");
@@ -170,42 +170,42 @@ public class Game{
             System.out.println("5. Insane");
             System.out.println("6. Return to Main Menu");
             String response = scan.nextLine();
-            if(response.equals("1")) {
+            if(response.equals("1")) { //Easy
                 Game game = new Game(5);
                 game.initialize(3, 3);
                 game.player.setLives(3);
                 game.play();
                 break;
             }
-            else if(response.equals("2")) {
+            else if(response.equals("2")) { //Medium
                 Game game = new Game(10);
                 game.initialize(12, 6);
                 game.player.setLives(3);
                 game.play();
                 break;
             }
-            else if(response.equals("3")) {
+            else if(response.equals("3")) { //Hard
                 Game game = new Game(15);
                 game.initialize(20, 10);
                 game.player.setLives(5);
                 game.play();
                 break;
             }
-            else if(response.equals("4")) {
+            else if(response.equals("4")) { //Expert
                 Game game = new Game(20);
                 game.initialize(35, 15);
                 game.player.setLives(5);
                 game.play();
                 break;
             } 
-            else if(response.equals("5")) {
+            else if(response.equals("5")) { //Insane
                 Game game = new Game(20);
                 game.initialize(50, 25);
                 game.player.setLives(3);
                 game.play();
                 break;
             }    
-            else if(response.equals("6")) {
+            else if(response.equals("6")) { //Exit to Main Menu
                 mainMenu();
                 break;
             }     
