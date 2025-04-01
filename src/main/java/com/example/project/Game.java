@@ -33,7 +33,6 @@ public class Game{
 
     public void play(){ //write your game logic here
         Scanner scanner = new Scanner(System.in);
-        initialize();
         while(true){
             try {
                 Thread.sleep(100); // Wait for 1/10 seconds
@@ -47,21 +46,44 @@ public class Game{
                 debug();
             }
             if(player.getLives() <= 0) {
-                clearScreen(); //Since lose does not start a new loop, clean screen here
-                grid.gameover(player, trophy, treasures);
-                if(debug) {
-                    debug(); 
+                while(true) {
+                    clearScreen(); //Since lose does not start a new loop, clean screen here
+                    grid.gameover(player, trophy, treasures);
+                    if(debug) {
+                        debug(); 
+                    }
+                    System.out.println("!!!!!!!!!!YOU HAVE LOST!!!!!!!!!!");
+                    System.out.println("Press r to Play Again");
+                    System.out.println("Press e to exit");
+                    String in = scanner.nextLine();
+                    if(in.equals("r")) {
+                        difficulty();
+                    }
+                    if(in.equals("e")) {
+                        break;
+                    }
                 }
-                System.out.println("!!!!!!!!!!YOU HAVE LOST!!!!!!!!!!");
                 break; //end program
             }
             if(player.getWin() == true) {
-                clearScreen(); //Since win doesn't trigger new loop, clean screen here
-                grid.win(player);
-                if(debug) {
-                    debug();
+                
+                while(true) {
+                    clearScreen(); //Since win doesn't trigger new loop, clean screen here
+                    grid.win(player);
+                    if(debug) {
+                        debug();
+                    }
+                    System.out.println("!!!!!!!!!!YOU WON!!!!!!!!!!");
+                    System.out.println("Press r to Play Again");
+                    System.out.println("Press e to exit");
+                    String in = scanner.nextLine();
+                    if(in.equals("r")) {
+                        difficulty();
+                    }
+                    if(in.equals("e")) {
+                        break;
+                    }
                 }
-                System.out.println("!!!!!!!!!!YOU WON!!!!!!!!!!");
                 break; //end program
             }
             String input = scanner.nextLine(); //Retrieve user input
@@ -73,20 +95,20 @@ public class Game{
         }
     }
 
-    public void initialize(){
+    public void initialize(int enemiesCount, int treasuresCount){
 
         //to test, create a player, trophy, grid, treasure, and enemies. Then call placeSprite() to put them on the grid
         System.out.println("Initializing..."); //Progress show when program loading
         player = new Player(0,0); //Player starts at bottom left
-        trophy = new Trophy(9, 9); //Trophy at top right
-        enemies = new Enemy[5]; //Enemy generate
+        trophy = new Trophy(size - 1, size - 1); //Trophy at top right
+        enemies = new Enemy[enemiesCount]; //Enemy generate
         for(int i = 0; i < enemies.length; i ++) {
             enemies[i] = new Enemy((int)(Math.random() * size),(int)(Math.random() * size));
             while (enemies[i].getX() == 0 || enemies[i].getY() == 0 || enemies[i].getX() == size - 1 || enemies[i].getY() == size - 1) {
                 enemies[i] = new Enemy((int)(Math.random() * size),(int)(Math.random() * size)); //Check overlap
             } 
         }
-        treasures = new Treasure[5]; //Treasure generate
+        treasures = new Treasure[treasuresCount]; //Treasure generate
         for(int i = 0; i < treasures.length; i ++) {
             treasures[i] = new Treasure((int)(Math.random() * size),(int)(Math.random() * size));
             while (treasures[i].getX() == 0 || treasures[i].getY() == 0 || treasures[i].getX() == size - 1 || treasures[i].getY() == size - 1) {
@@ -117,8 +139,85 @@ public class Game{
         System.out.println("Treasures remaining: " + (treasures.length - player.getTreasureCount()));
     }
 
+    public void mainMenu() {
+        Scanner scan = new Scanner(System.in);
+        while(true) {
+            clearScreen();
+            System.out.println("*****WELCOME TO TREASURE HUNT*****");
+            System.out.println("1. Start Game!");
+            System.out.println("2. Exit");
+            String response = scan.nextLine();
+            if(response.equals("1")) {
+                difficulty();
+                break;
+            }
+            if(response.equals("2")) {
+                break;
+            }
+        }
+        scan.close();
+    }
+
+    public void difficulty() {
+        Scanner scan = new Scanner(System.in);
+        while(true) {
+            clearScreen();
+            System.out.println("Choose your level!");
+            System.out.println("1. Easy");
+            System.out.println("2. Medium");
+            System.out.println("3. Hard");
+            System.out.println("4. Expert");
+            System.out.println("5. Insane");
+            System.out.println("6. Return to Main Menu");
+            String response = scan.nextLine();
+            if(response.equals("1")) {
+                Game game = new Game(5);
+                game.initialize(3, 3);
+                game.player.setLives(3);
+                game.play();
+                break;
+            }
+            else if(response.equals("2")) {
+                Game game = new Game(10);
+                game.initialize(12, 6);
+                game.player.setLives(3);
+                game.play();
+                break;
+            }
+            else if(response.equals("3")) {
+                Game game = new Game(15);
+                game.initialize(20, 10);
+                game.player.setLives(5);
+                game.play();
+                break;
+            }
+            else if(response.equals("4")) {
+                Game game = new Game(20);
+                game.initialize(35, 15);
+                game.player.setLives(5);
+                game.play();
+                break;
+            } 
+            else if(response.equals("5")) {
+                Game game = new Game(20);
+                game.initialize(50, 25);
+                game.player.setLives(3);
+                game.play();
+                break;
+            }    
+            else if(response.equals("6")) {
+                mainMenu();
+                break;
+            }     
+            scan.close();
+        }
+
+
+    }
+
     public static void main(String[] args) {  //Game start!!!!
-        Game game = new Game(10);
-        game.play();
+        Game game = new Game(0);
+        game.mainMenu();
+
     }
 }

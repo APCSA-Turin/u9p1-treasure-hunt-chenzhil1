@@ -84,6 +84,10 @@ public class Player extends Sprite{
         return true;
     }
 
+    public void setLives(int lives) { //Set lives for different difficulties
+        this.numLives = lives;
+    }
+
     @Override
     public String getRowCol(int size) {
         return "Player:" + super.getRowCol(size);
