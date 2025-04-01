@@ -58,6 +58,9 @@ public class Player extends Sprite{
 
 
     public boolean isValid(int size, String direction){ //check grid boundaries
+        if(!direction.equals("w") && !direction.equals("a") && !direction.equals("s") && !direction.equals("d")) {
+            return false;
+        }
         if(direction.equals("w")) {
             if((getY() + 1) >= size) {
                 return false;

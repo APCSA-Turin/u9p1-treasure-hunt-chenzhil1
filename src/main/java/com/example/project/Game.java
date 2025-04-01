@@ -12,6 +12,7 @@ public class Game{
     private int size; 
 
     public Game(int size){ //the constructor should call initialize() and play()
+        this.size = size;
     }
 
     public static void clearScreen() { //do not modify
@@ -32,8 +33,7 @@ public class Game{
 
     public void play(){ //write your game logic here
         Scanner scanner = new Scanner(System.in);
-
-
+        initialize();
         while(true){
             try {
                 Thread.sleep(100); // Wait for 1/10 seconds
@@ -41,51 +41,87 @@ public class Game{
                 e.printStackTrace();
             }
             clearScreen(); // Clear the screen at the beggining of the while loop
-
-     
+            grid.display();
+            boolean debug = true;
+            if(debug) {
+                debug();
             }
-            
-     
+            if(player.getLives() <= 0) {
+                clearScreen();
+                grid.gameover(player, trophy, treasures);
+                if(debug) {
+                    debug();
+                }
+                System.out.println("!!!!!!!!!!YOU HAVE LOST!!!!!!!!!!");
+                break;
+            }
+            if(player.getWin() == true) {
+                clearScreen();
+                grid.win(player);
+                if(debug) {
+                    debug();
+                }
+                System.out.println("!!!!!!!!!!YOU WON!!!!!!!!!!");
+                break;
+            }
+            String input = scanner.nextLine();
+            if(player.isValid(size, input)) {
+                player.move(input);
+                player.interact(size, input, treasures.length, grid.getGrid()[size - 1 - player.getY()][player.getX()]); 
+                if(grid.getGrid()[size - 1 - player.getY()][player.getX()] instanceof Enemy) {
+                    System.out.println("ENEMY ENCOUNTERED");
+                }
+                grid.placeSprite(player, input);
+            }
+        }
     }
 
     public void initialize(){
 
         //to test, create a player, trophy, grid, treasure, and enemies. Then call placeSprite() to put them on the grid
-   
+        System.out.println("Initializing...");
+        player = new Player(0,0);
+        trophy = new Trophy(9, 9);
+        enemies = new Enemy[5];
+        for(int i = 0; i < enemies.length; i ++) {
+            enemies[i] = new Enemy((int)(Math.random() * size),(int)(Math.random() * size));
+            while (enemies[i].getX() == 0 || enemies[i].getY() == 0 || enemies[i].getX() == size - 1 || enemies[i].getY() == size - 1) {
+                enemies[i] = new Enemy((int)(Math.random() * size),(int)(Math.random() * size));
+            } 
+        }
+        treasures = new Treasure[5];
+        for(int i = 0; i < treasures.length; i ++) {
+            treasures[i] = new Treasure((int)(Math.random() * size),(int)(Math.random() * size));
+            while (treasures[i].getX() == 0 || treasures[i].getY() == 0 || treasures[i].getX() == size - 1 || treasures[i].getY() == size - 1) {
+                treasures[i] = new Treasure((int)(Math.random() * size),(int)(Math.random() * size));
+            } 
+        }
+        gridInit();
+
+    }
+
+    public void gridInit() {
+        grid = new Grid(size);
+        for(Enemy e : enemies) {
+            grid.placeSprite(e);
+        }
+        for(Treasure t : treasures) {
+            grid.placeSprite(t);
+        }
+        grid.placeSprite(player);
+        grid.placeSprite(trophy);
+    }
+
+    public void debug() {
+        System.out.println(player.getRowCol(size));
+        System.out.println("Player health: " + player.getLives());
+        System.out.println("Win status: " + player.getWin());
+        System.out.println("Grid size: " + size);
+        System.out.println("Treasures remaining: " + (treasures.length - player.getTreasureCount()));
     }
 
     public static void main(String[] args) {
-        Grid grid = new Grid(10);
-        grid.display();
-
-        Player player = new Player(0, 0);
-        Enemy enemy = new Enemy(5, 5);
-        Enemy enemy2 = new Enemy(7, 8);
-        for(int i=0;i<5;i++){
-            player.move("w"); //[9-5][0]
-            grid.placeSprite(player, "w");
-        }
-
-        for(int i=0;i<4;i++){
-            player.move("d");//[5][4]
-            grid.placeSprite(player, "d");
-        }
-
-         // Interact with the enemy
-        player.interact(10, "d", 1, enemy);
-        player.move("d");//[4][5]
-        grid.placeSprite(player, "d");
-
-        grid.display();
-
-        //go to  [2][7] enemy from [4][5]
-        player.move("w");//[3][5]
-        player.move("w");//[2][5]
-        player.move("d");//[2][6]
-
-        player.interact(10,"d",1,enemy2);
-        player.move("d");//[2][7]
-        grid.placeSprite(player,"d");
-        grid.display();
+        Game game = new Game(10);
+        game.play();
     }
 }
