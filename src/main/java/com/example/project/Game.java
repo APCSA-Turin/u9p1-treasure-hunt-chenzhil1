@@ -45,6 +45,7 @@ public class Game{
             if(debug) {
                 debug();
             }
+            System.out.print("Enter a direction (w,a,s,d) or 'q' to exit: ");
             if(player.getLives() <= 0) {
                 while(true) {
                     clearScreen(); //Since lose does not start a new loop, clean screen here
@@ -79,14 +80,19 @@ public class Game{
                     String in = scanner.nextLine();
                     if(in.equals("r")) {
                         difficulty();
+                        break;
                     }
                     if(in.equals("e")) {
+                        mainMenu();
                         break;
                     }
                 }
                 break; //end program
             }
             String input = scanner.nextLine(); //Retrieve user input
+            if(input.equals("q")) {
+                break;
+            }
             if(player.isValid(size, input)) { //Check input validity
                 player.move(input); //set player temperoray movement
                 player.interact(size, input, treasures.length, grid.getGrid()[size - 1 - player.getY()][player.getX()]);  //Interact with existing sprite
@@ -209,8 +215,8 @@ public class Game{
                 mainMenu();
                 break;
             }     
-            scan.close();
         }
+        scan.close();
 
 
     }
