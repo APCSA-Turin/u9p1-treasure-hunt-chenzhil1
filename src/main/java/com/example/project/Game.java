@@ -1,7 +1,6 @@
 package com.example.project;
 import java.util.Scanner;
 
-import java.util.Scanner;
 
 public class Game{
     private Grid grid;
@@ -10,6 +9,7 @@ public class Game{
     private Treasure[] treasures;
     private Trophy trophy;
     private int size; 
+    private int newTreasureCount = 0;
 
     public Game(int size){ //the constructor should call initialize() and play()
         this.size = size;
@@ -59,6 +59,7 @@ public class Game{
                     String in = scanner.nextLine();
                     if(in.equals("r")) {
                         difficulty();
+                        break;
                     }
                     if(in.equals("e")) {
                         break;
@@ -91,6 +92,7 @@ public class Game{
             }
             String input = scanner.nextLine(); //Retrieve user input
             if(input.equals("q")) {
+                mainMenu();
                 break;
             }
             if(player.isValid(size, input)) { //Check input validity
@@ -99,6 +101,7 @@ public class Game{
                 grid.placeSprite(player, input); //Update grid
             }
         }
+        scanner.close();
     }
 
     public void initialize(int enemiesCount, int treasuresCount){
@@ -121,7 +124,17 @@ public class Game{
                 treasures[i] = new Treasure((int)(Math.random() * size),(int)(Math.random() * size)); //Check overlap
             } 
         }
+        
         gridInit(); //Places sprites
+        newTreasureCount = 0; //Double check Treasure Count to avoid bugging
+        for(Sprite[] sps: grid.getGrid()) {
+            for(Sprite sp : sps) {
+                if(sp instanceof Treasure) {
+                    newTreasureCount ++;
+                }
+            }
+        }
+        newTreasureCount --;
 
     }
 
@@ -142,7 +155,7 @@ public class Game{
         System.out.println("Player health: " + player.getLives());
         // System.out.println("Win status: " + player.getWin()); //For testing
         System.out.println("Grid size: " + size);
-        System.out.println("Treasures remaining: " + (treasures.length - player.getTreasureCount()));
+        System.out.println("Treasures remaining: " + (newTreasureCount - player.getTreasureCount()));
     }
 
     public void mainMenu() { //Welcome screen
